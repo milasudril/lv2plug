@@ -44,7 +44,7 @@ namespace LV2Plug
 						
 					*widget=T::doCreate(path_bundle,write_callback,controller
 						,*ext_host);
-					return widget;
+					return *widget;
 					}
 				catch(const char* errstr)
 					{printf("Error while initializing plugin: %s\n",errstr);}
