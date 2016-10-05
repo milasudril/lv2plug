@@ -1,10 +1,20 @@
-#ifdef __WAND__
-target[name[feature_descriptor.h] type[include]]
-dependency[feature_descriptor.o]
-#endif
-
-#ifndef LV2PLUG_FEATUREDESCRIPTOR_H
-#define LV2PLUG_FEATUREDESCRIPTOR_H
+//@	{
+//@	    "dependencies_extra":[
+//@	        {
+//@	            "ref":"feature_descriptor.o",
+//@	            "rel":"implementation"
+//@	        }
+//@	    ],
+//@	    "targets":[
+//@	        {
+//@	            "dependencies":[],
+//@	            "name":"feature_descriptor.hpp",
+//@	            "type":"include"
+//@	        }
+//@	    ]
+//@	}
+#ifndef LV2PLUG_FEATUREDESCRIPTOR_HPP
+#define LV2PLUG_FEATUREDESCRIPTOR_HPP
 
 #include <lv2/lv2plug.in/ns/ext/urid/urid.h>
 #include <lv2/lv2plug.in/ns/lv2core/lv2.h>

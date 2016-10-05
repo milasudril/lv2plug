@@ -1,11 +1,17 @@
-#ifdef __WAND__
-target[name[client.h] type [include]]
-#endif
+//@	{
+//@	    "dependencies_extra":[],
+//@	    "targets":[
+//@	        {
+//@	            "dependencies":[],
+//@	            "name":"client.hpp",
+//@	            "type":"include"
+//@	        }
+//@	    ]
+//@	}
+#ifndef LV2PLUG_CLIENT_HPP
+#define LV2PLUG_CLIENT_HPP
 
-#ifndef LV2PLUG_CLIENT_H
-#define LV2PLUG_CLIENT_H
-
-#include "feature_descriptor.h"
+#include "feature_descriptor.hpp"
 #include <cstdio>
 #include <lv2/lv2plug.in/ns/lv2core/lv2.h>
 

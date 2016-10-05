@@ -1,9 +1,15 @@
-#ifdef __WAND__
-target[name[main.o] type[object]]
-#endif
-
-#include "main.h"
-#include "client.h"
+//@	{
+//@	    "dependencies_extra":[],
+//@	    "targets":[
+//@	        {
+//@	            "dependencies":[],
+//@	            "name":"main.o",
+//@	            "type":"object"
+//@	        }
+//@	    ]
+//@	}
+#include "main.hpp"
+#include "client.hpp"
 
 LV2_SYMBOL_EXPORT const LV2_Descriptor* lv2_descriptor(uint32_t index)
 	{

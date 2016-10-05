@@ -1,8 +1,14 @@
-#ifdef __WAND__
-target[name[feature_descriptor.o] type[object]]
-#endif
-
-#include "feature_descriptor.h"
+//@	{
+//@	    "dependencies_extra":[],
+//@	    "targets":[
+//@	        {
+//@	            "dependencies":[],
+//@	            "name":"feature_descriptor.o",
+//@	            "type":"object"
+//@	        }
+//@	    ]
+//@	}
+#include "feature_descriptor.hpp"
 #include <lv2/lv2plug.in/ns/lv2core/lv2.h>
 #include <lv2/lv2plug.in/ns/ext/atom/atom.h>
 #include <lv2/lv2plug.in/ns/ext/time/time.h>
