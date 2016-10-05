@@ -29,6 +29,7 @@ function do_cleanup ()
 function uninstall_cmds ()
 	{
 	echo "PREFIX="'"'"$PREFIX"'"'
+	echo "PROJECT="'"'"$PROJECT"'"'
 	for k in "${rollback[@]}"; do
 		echo "$k"
 	done
@@ -54,13 +55,13 @@ function transaction ()
 
 set -e
 transaction 'mkdir -p "$PREFIX"/include/"$PROJECT"' \
-	'rmdir "$PREFIX"/include/alice && rmdir "$PREFIX"/include && rmdir "$PREFIX"'
+	'rmdir "$PREFIX"/include/"$PROJECT" && rmdir "$PREFIX"/include && rmdir "$PREFIX"'
 transaction 'cp __targets/*.hpp "$PREFIX"/include/"$PROJECT"' \
 	'rm "$PREFIX"/include/"$PROJECT"/*.hpp'
 transaction 'mkdir -p "$PREFIX"/lib' \
 	'rmdir "$PREFIX"/lib'
 transaction 'cp "__targets/lib$PROJECT.a" "$PREFIX/lib"' \
-	'rm "$PREFIX/lib/lib"$PROJECT.a"'
+	'rm "$PREFIX"/lib/lib"$PROJECT".a'
 transaction 'cp lv2ports.py "$PREFIX/bin"' \
 	'rm "$PREFIX/bin/lv2ports.py"'
 
