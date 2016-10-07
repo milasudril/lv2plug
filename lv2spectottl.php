@@ -12,25 +12,6 @@ function outputRedirect(string $filename)
 	ob_start('ob_file_callback');
 	}
 
-function CamelCase(string $str)
-	{
-//TODO: Use preg_split instead...
-	$x=explode(' ',$str);
-	foreach($x as &$namepart)
-		{$namepart=ucfirst($namepart);}
-	return implode('',$x);
-	}
-
-function guardname(string $scope,string $filename)
-	{
-//TODO: Use preg_split instead...
-	$x=[$scope];
-	$x=array_merge($x,explode('.',$filename));
-	foreach($x as &$namepart)
-		{$namepart=strtoupper($namepart);}
-	return implode('_',$x);
-	}
-
 function symbolFromName(string $name)
 	{
 //TODO: Use preg_split instead...
