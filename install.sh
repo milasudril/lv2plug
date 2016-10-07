@@ -43,7 +43,7 @@ fi
 ' 0
 
 trap 'do_cleanup
-exit 1' SIGINT SIGTERM 
+exit 1' SIGINT SIGTERM
 
 function transaction ()
 	{
@@ -62,15 +62,18 @@ transaction 'mkdir -p "$PREFIX"/lib' \
 	'rmdir "$PREFIX"/lib'
 transaction 'cp "__targets/lib$PROJECT.a" "$PREFIX/lib"' \
 	'rm "$PREFIX"/lib/lib"$PROJECT".a'
-transaction 'cp lv2ports.py "$PREFIX/bin"' \
-	'rm "$PREFIX/bin/lv2ports.py"'
+transaction 'cp lv2spectohpp.php "$PREFIX/bin"' \
+	'rm "$PREFIX/bin/lv2spectohpp.php"'
+transaction 'cp lv2spectottl.php "$PREFIX/bin"' \
+	'rm "$PREFIX/bin/lv2spectottl.php"'
 
 if [ "$(id -u)" == "0" ]; then
 	chmod -R o+r "$PREFIX"/include
 	chmod -R o+r "$PREFIX"/bin
 	chmod -R o+r "$PREFIX"/lib
 	chmod -R o+r "$PREFIX"/include/"$PROJECT"
-	chmod o+x "$PREFIX"/bin/lv2ports.py
+	chmod o+x "$PREFIX"/bin/lv2spectohpp.php
+	chmod o+x "$PREFIX"/bin/lv2spectottl.php
 fi
 
 
