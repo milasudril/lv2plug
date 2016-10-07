@@ -9,7 +9,7 @@
 	,"ports":
 		[
 		 {"name":"MIDI in","type":"MIDI","direction":"in"}
-		,{"name":"Cutoff","type":"Control","direction":"in"}
+		,{"name":"Cutoff","type":"Control","direction":"in","minimum":0,"maximum":1,"default":0.5}
 		,{"name":"Audio out","type":"Audio","direction":"out"}
 		]
 	}

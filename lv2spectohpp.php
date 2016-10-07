@@ -52,6 +52,12 @@ function typeGet($port)
 	return $ret;
 	}
 
+if($argc<2)
+	{
+	error_log('No input file is specified');
+	exit(-1);
+	}
+
 if($argc<3)
 	{
 	error_log('No target header file is specified');
