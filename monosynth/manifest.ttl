@@ -11,7 +11,7 @@
 <http://example.org/monosynth>
 	a lv2:Plugin;
 	a lv2:InstrumentPlugin;
-	lv2:binarymonosynth.so;
+	lv2:binary <monosynth.so>;
 	doap:name "Monophonic synth";
 	doap:maintainer [foaf:name "Torbjörn Rathsman"; ];
 	doap:license <https://opensource.org/licenses/isc>;

@@ -75,7 +75,7 @@ $plugindata=json_decode(file_get_contents($argv[1]));
 <<?=$plugindata->{'uri'}?>>
 	a lv2:Plugin;
 	a lv2:<?=$plugindata->{'type'}?>;
-	lv2:binary<?=$plugindata->{'binary'}?>;
+	lv2:binary <<?=$plugindata->{'binary'}?>>;
 	doap:name "<?=$plugindata->{'name'}?>";
 	doap:maintainer [foaf:name "<?=$plugindata->{'maintainer'}?>"; ];
 	doap:license <<?=$plugindata->{'license'}?>>;
