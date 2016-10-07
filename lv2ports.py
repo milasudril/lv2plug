@@ -25,6 +25,11 @@ def write_error(*args, **kwargs):
 def portDataLoad(manifest):
 	g=rdflib.Graph().parse(manifest,format="turtle")
 
+	x=g.objects(predicate=rdflib.URIRef('http://lv2plug.in/ns/lv2core#binary'))
+	y=g.subjects(predicate=rdflib.URIRef('http://lv2plug.in/ns/lv2core#binary'))
+	print(os.path.basename(next(x))) #Name of shared library
+	print(next(y)) #Project URI
+
 	port=rdflib.URIRef('http://lv2plug.in/ns/lv2core#port')
 	port_symbol=rdflib.URIRef('http://lv2plug.in/ns/lv2core#symbol')
 	port_index=rdflib.URIRef('http://lv2plug.in/ns/lv2core#index')
