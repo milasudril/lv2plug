@@ -14,6 +14,8 @@ namespace LV2Plug
 	class PRIVATE Plugin
 		{
 		public:
+			typedef typename PluginDescriptor::Ports Ports;
+
 			auto& portmap() noexcept
 				{return m_ports;}
 
@@ -33,7 +35,7 @@ namespace LV2Plug
 				{}
 
 		private:
-			PortMap<typename PluginDescriptor::Ports> m_ports;
+			PortMap<Ports> m_ports;
 		};
 	}
 
