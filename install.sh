@@ -66,6 +66,8 @@ transaction 'cp lv2spectohpp.php "$PREFIX/bin"' \
 	'rm "$PREFIX/bin/lv2spectohpp.php"'
 transaction 'cp lv2spectottl.php "$PREFIX/bin"' \
 	'rm "$PREFIX/bin/lv2spectottl.php"'
+transaction 'cp __targets/targetlv2spec.so "$PREFIX/lib/maike"' \
+	'rm "$PREFIX/lib/maike/targetlv2spec.so"'
 
 if [ "$(id -u)" == "0" ]; then
 	chmod -R o+r "$PREFIX"/include
@@ -74,6 +76,7 @@ if [ "$(id -u)" == "0" ]; then
 	chmod -R o+r "$PREFIX"/include/"$PROJECT"
 	chmod o+x "$PREFIX"/bin/lv2spectohpp.php
 	chmod o+x "$PREFIX"/bin/lv2spectottl.php
+	chmod o+x "$PREFIX"/lib/maike/targetlv2spec.so
 fi
 
 

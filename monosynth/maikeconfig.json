@@ -51,7 +51,7 @@
                 },
                 "includedir":[],
                 "includedir_format":"-I^",
-                "includedir_noscan":[],
+                "includedir_noscan":["__targets"],
                 "libcompile":{
                     "args":[
                         "rcs",
@@ -128,6 +128,29 @@
             ],
             "name":"pythondefault",
             "plugin":"targetpython"
+        },
+        {
+            "config":{
+				"tottler":{
+					"args":[
+						"{source}"
+						,"{target_directory}"
+					],
+					"name":"lv2spectottl.php"
+				},
+				"tohopper":{
+					"args":[
+						 "{source}"
+						,"{target_directory}"
+					],
+					"name":"lv2spectohpp.php"
+				}
+            },
+            "filename_exts":[
+                ".lv2spec"
+            ],
+            "name":"lv2specdefault",
+            "plugin":"targetlv2spec"
         }
     ],
     "targetinfo":{

@@ -1,3 +1,6 @@
+{
+ "targets":[{"name":"plugindescriptor.hpp"}]
+,"specification":
 	{
 	 "name":"Monophonic synth"
 	,"uri":"http://example.org/monosynth"
@@ -13,3 +16,4 @@
 		,{"name":"Audio out","type":"Audio","direction":"out"}
 		]
 	}
+}

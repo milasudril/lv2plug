@@ -60,11 +60,12 @@ if($argc<2)
 
 if($argc<3)
 	{
-	error_log('No target header file is specified');
+	error_log('No target directory is specified');
 	exit(-1);
 	}
-outputRedirect($argv[2]);
-$plugindata=json_decode(file_get_contents($argv[1]));
+$content=json_decode(file_get_contents($argv[1]));
+$plugindata=$content->{'specification'};
+outputRedirect($argv[2].'/'.$content->{'targets'}[0]->{'name'});
 $name=$plugindata->{'name'};
 $namespace=CamelCase($name);
 $guard=guardname($namespace,$argv[2]);

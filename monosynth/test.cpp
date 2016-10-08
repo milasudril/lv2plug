@@ -1,11 +1,13 @@
 //@	{
 //@	"targets":
-//@		[{"name":"monosynth.so","type":"lib_dynamic","dependencies":
-//@			[{"ref":"lv2plug","rel":"external"}]
+//@		[{
+//@		"name":"monosynth.so","type":"lib_dynamic"
+//@		,"dependencies":
+//@			[{"ref":"lv2plug","rel":"external"},{"ref":"plugindescriptor.hpp","rel":"internal"}]
+//@		,"cxxoptions":{"cflags_extra":["includeplugindescriptor.hpp"]}
 //@		}]
 //@	}
 
-#include "test.hpp"
 #include <lv2plug/lv2plug.hpp>
 #include <lv2/lv2plug.in/ns/ext/midi/midi.h>
 #include <cmath>
@@ -105,7 +107,6 @@ void DspEngine::eventsGet()
 				case LV2_MIDI_MSG_NOTE_ON:
 					m_key=msg[1];
 					m_amplitude=msg[2]/127.0f;
-					printf("%p\n",portmap().get<Ports::CUTOFF>());
 					break;
 
 				case LV2_MIDI_MSG_NOTE_OFF:
