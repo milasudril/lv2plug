@@ -16,7 +16,7 @@
             "config":{
                 "appcompile":{
                     "args":[
-                        "-g",
+                        "-O2",
                         "-fpic",
                         "{cxxversion}",
                         "-Wall",
@@ -35,7 +35,7 @@
                 "cxxversion_min":201402,
                 "dllcompile":{
                     "args":[
-                        "-g",
+                        "-O2",
                         "-fpic",
                         "{cxxversion}",
                         "-Wall",
@@ -67,7 +67,7 @@
                 "objcompile":{
                     "args":[
                         "-c",
-                        "-g",
+                        "-O2",
                         "-fpic",
                         "{cxxversion}",
                         "-Wall",

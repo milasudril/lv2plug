@@ -18,6 +18,7 @@
 
 #include <lv2/lv2plug.in/ns/lv2core/lv2.h>
 
+
 namespace LV2Plug
 	{
 	const LV2_Descriptor& main();

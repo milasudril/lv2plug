@@ -81,55 +81,44 @@ $guard=guardname($namespace,$argv[2]);
 namespace <?=$namespace?>
 
 	{
+	struct PluginDescriptor
+		{
 <?php foreach($plugindata as $field => $value)
 	{
 	if(!is_array($value))
-		{?>
-	constexpr const char* <?=cxxconstant($field)?>="<?=$value?>";
+		{
+		$constant=cxxconstant($field);?>
+		static constexpr const char* <?=$constant?>="<?=$value?>";
+		static constexpr const char* <?=strtolower($constant)?>Get() noexcept
+			{return <?=cxxconstant($field)?>;}
+
 <?php	}
 	}?>
-	constexpr unsigned int PORT_COUNT=<?=count($plugindata->{'ports'}) ?>;
 
-	namespace Ports
-		{
+		struct Ports
+			{
 <?php foreach($plugindata->{'ports'} as $index=>$port) {?>
-		constexpr unsigned int <?=cxxconstant($port->{'name'})?>=<?=$index ?>;
+			static constexpr unsigned int <?=cxxconstant($port->{'name'})?>=<?=$index ?>;
 <?php }?>
 
-		template<unsigned int port_id>
-		struct TypeGet
-			{typedef void type;};
+			static constexpr unsigned int PORT_COUNT=<?=count($plugindata->{'ports'}) ?>;
 
-<?php foreach($plugindata->{'ports'} as $index=>$port) {?>
-		template<>
-		struct TypeGet<<?=cxxconstant($port->{'name'})?>>
-			{typedef <?=typeGet($port)?> type;};
+			template<unsigned int port_id>
+			struct TypeGet
+				{typedef void type;};
 
-<?php }?>
-		constexpr const char* PORTNAMES[]={<?php foreach($plugindata->{'ports'} as $index=>$port)
+			static constexpr const char* PORTNAMES[]={<?php foreach($plugindata->{'ports'} as $index=>$port)
 	{
 	echo '"'.$port->{'name'}.'",';
 	}?>nullptr};
-		}
-
-	class PortMap
-		{
-		public:
-			template<unsigned int port_id>
-			auto get() noexcept
-				{
-				static_assert(port_id < PORT_COUNT,"Bad port number");
-				return reinterpret_cast<typename Ports::TypeGet<port_id>::type>(ports[port_id]);
-				}
-
-			PortMap& connect(unsigned int port_index,void* buffer) noexcept
-				{
-				ports[port_index]=buffer;
-				return *this;
-				}
-
-		private:
-			void* ports[PORT_COUNT];
+			};
 		};
-	};
+
+<?php foreach($plugindata->{'ports'} as $index=>$port) {?>
+	template<>
+	struct PluginDescriptor::Ports::TypeGet<PluginDescriptor::Ports::<?=cxxconstant($port->{'name'})?>>
+			{typedef <?=typeGet($port)?> type;};
+
+<?php }?>
+	}
 #endif

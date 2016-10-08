@@ -28,67 +28,67 @@ namespace LV2Plug
 			FeatureDescriptor& operator=(const FeatureDescriptor&)=default;
 			FeatureDescriptor(FeatureDescriptor&&)=default;
 			FeatureDescriptor& operator=(FeatureDescriptor&&)=default;
-			
+
 			FeatureDescriptor(const LV2_Feature* const* features);
-			
-			LV2_URID midi() const
+
+			LV2_URID midi() const noexcept
 				{return id_MIDI;}
-			
-			LV2_URID AtomBlank() const
+
+			LV2_URID AtomBlank() const noexcept
 				{return id_AtomBlank;}
-			
-			LV2_URID AtomObject() const
+
+			LV2_URID AtomObject() const noexcept
 				{return id_AtomObject;}
-			
-			LV2_URID AtomSeq() const
+
+			LV2_URID AtomSeq() const noexcept
 				{return id_AtomSeq;}
-			
-			LV2_URID Long() const
+
+			LV2_URID Long() const noexcept
 				{return id_Long;}
-			
-			LV2_URID Float() const
+
+			LV2_URID Float() const noexcept
 				{return id_Float;}
-				
-			LV2_URID Double() const
+
+			LV2_URID Double() const noexcept
 				{return id_Double;}
-			
-			LV2_URID position() const
+
+			LV2_URID position() const noexcept
 				{return id_Position;}
-				
-			LV2_URID barBeat() const
+
+			LV2_URID barBeat() const noexcept
 				{return id_barBeat;}
-				
-			LV2_URID Beat() const
+
+			LV2_URID Beat() const noexcept
 				{return id_Beat;}
-				
-			LV2_URID beatsPerMinute() const
+
+			LV2_URID beatsPerMinute() const noexcept
 				{return id_beatsPerMinute;}
-				
-			LV2_URID speed() const
+
+			LV2_URID speed() const noexcept
 				{return id_speed;}
-			
-			LV2_URID frame() const
+
+			LV2_URID frame() const noexcept
 				{return id_frame;}
-			
-			LV2_URID fps() const
+
+			LV2_URID fps() const noexcept
 				{return id_fps;}
-				
-			
+
+
 		private:
 			LV2_URID id_MIDI;
-			LV2_URID id_AtomBlank         ;
-			LV2_URID id_AtomObject        ;
-			LV2_URID id_AtomSeq           ;
-			LV2_URID id_Long              ;
-			LV2_URID id_Float             ;
-			LV2_URID id_Double            ;
-			LV2_URID id_Position          ;
-			LV2_URID id_barBeat           ;
-			LV2_URID id_Beat              ;
-			LV2_URID id_beatsPerMinute    ;
-			LV2_URID id_speed             ;
-			LV2_URID id_frame             ;
-			LV2_URID id_fps               ;
+			LV2_URID id_AtomBlank;
+			LV2_URID id_AtomObject;
+			LV2_URID id_AtomSeq;
+			LV2_URID id_Long;
+			LV2_URID id_Float;
+			LV2_URID id_Double;
+			LV2_URID id_Position;
+			LV2_URID id_barBeat;
+			LV2_URID id_Beat;
+			LV2_URID id_beatsPerMinute;
+			LV2_URID id_speed;
+			LV2_URID id_frame;
+			LV2_URID id_fps;
 		};
 	};
 

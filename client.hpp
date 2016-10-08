@@ -12,8 +12,9 @@
 #define LV2PLUG_CLIENT_HPP
 
 #include "feature_descriptor.hpp"
-#include <cstdio>
 #include <lv2/lv2plug.in/ns/lv2core/lv2.h>
+#include <limits>
+#include <cstdio>
 
 namespace LV2Plug
 	{
@@ -22,38 +23,46 @@ namespace LV2Plug
 		,const char* path_bundle,const LV2_Feature* const* features)
 		{
 		try
-			{
-			return Client::create(f_s,path_bundle,FeatureDescriptor(features));
-			}
+			{return new Client(f_s,path_bundle,FeatureDescriptor(features));}
 		catch(const char* errstr)
-			{printf("Error while initializing plugin: %s\n",errstr);}
+			{fprintf(stderr,"%s: %s\n",Client::descriptor().nameGet(),errstr);}
 		catch(...)
 			{
-			printf("Error while initializing plugin\n");
+			fprintf(stderr,"%s: Initialization failed\n",Client::descriptor().nameGet());
 			}
 		return nullptr;
 		}
-	
+
 	template<class Client>
 	void portConnect(LV2_Handle handle,uint32_t port,void* data)
-		{static_cast<Client*>(handle)->portConnect(port,data);}
-		
+		{
+		auto client=static_cast<Client*>(handle);
+		auto& portmap=client->portmap();
+		constexpr auto N_ports=portmap.portCountGet();
+		if(port>=N_ports)
+			{
+			fprintf(stderr,"%s has only %u ports",Client::descriptor().nameGet(),N_ports);
+			return;
+			}
+		portmap.connect(port,data);
+		}
+
 	template<class Client>
 	void activate(LV2_Handle handle)
 		{static_cast<Client*>(handle)->activate();}
-	
+
 	template<class Client>
 	void process(LV2_Handle handle, uint32_t n_frames)
 		{static_cast<Client*>(handle)->process(n_frames);}
-	
+
 	template<class Client>
 	void deactivate(LV2_Handle handle)
 		{static_cast<Client*>(handle)->deactivate();}
-	
+
 	template<class Client>
 	void destroy(LV2_Handle handle)
-		{static_cast<Client*>(handle)->destroy();}
-		
+		{delete static_cast<Client*>(handle);}
+
 	template<class Client>
 	const void* extensionDataGet(const char* uri)
 		{return Client::extensionDataGet(uri);}
@@ -61,13 +70,13 @@ namespace LV2Plug
 	template<class Client>
 	struct Descriptor
 		{
-		static const LV2_Descriptor descriptor;	
+		static const LV2_Descriptor descriptor;
 		};
-	
+
 	template<class Client>
 	const LV2_Descriptor Descriptor<Client>::descriptor=
 		{
-		 Client::URI
+		 Client::descriptor().uriGet()
 		,create<Client>
 		,portConnect<Client>
 		,activate<Client>
@@ -76,10 +85,16 @@ namespace LV2Plug
 		,destroy<Client>
 		,extensionDataGet<Client>
 		};
-		
+
 	template<class Client>
-	const LV2_Descriptor& descriptorGet()
-		{return Descriptor<Client>::descriptor;}
+	inline const LV2_Descriptor& descriptorGet()
+		{
+	//	Force the linker to export lv2_descriptor, by calling it with highvalue.
+	//	This will not have any side effect (returns nullptr). Hopefully, the
+	//	linker isn't smart enougth...
+		lv2_descriptor(std::numeric_limits<uint32_t>::max());
+		return Descriptor<Client>::descriptor;
+		}
 	}
 
 #endif

@@ -8,5 +8,7 @@
 #include "main.hpp"
 #include "client.hpp"
 #include "feature_descriptor.hpp"
+#include "portmap.hpp"
+#include "plugin.hpp"
 
 #endif

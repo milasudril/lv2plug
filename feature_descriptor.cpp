@@ -30,7 +30,7 @@ LV2Plug::FeatureDescriptor::FeatureDescriptor(const LV2_Feature* const* features
 		++features;
 		}
 	if(feature_map==nullptr)
-		{throw "urid:map unsupported";}
+		{throw "Failed to initialize plugin: urid:map unsupported by host";}
 
 	id_MIDI           = feature_map->map(feature_map->handle, LV2_MIDI__MidiEvent);
 	id_AtomBlank      = feature_map->map(feature_map->handle, LV2_ATOM__Blank);

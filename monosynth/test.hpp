@@ -6,57 +6,60 @@
 
 namespace MonophonicSynth
 	{
-	constexpr const char* NAME="Monophonic synth";
-	constexpr const char* URI="http://example.org/monosynth";
-	constexpr const char* BINARY="monosynth.so";
-	constexpr const char* MAINTAINER="Torbjörn Rathsman";
-	constexpr const char* LICENSE="https://opensource.org/licenses/isc";
-	constexpr const char* TYPE="InstrumentPlugin";
-	constexpr unsigned int PORT_COUNT=3;
-
-	namespace Ports
+	struct PluginDescriptor
 		{
-		constexpr unsigned int MIDI_IN=0;
-		constexpr unsigned int CUTOFF=1;
-		constexpr unsigned int AUDIO_OUT=2;
+		static constexpr const char* NAME="Monophonic synth";
+		static constexpr const char* nameGet() noexcept
+			{return NAME;}
 
-		template<unsigned int port_id>
-		struct TypeGet
-			{typedef void type;};
+		static constexpr const char* URI="http://example.org/monosynth";
+		static constexpr const char* uriGet() noexcept
+			{return URI;}
 
-		template<>
-		struct TypeGet<MIDI_IN>
+		static constexpr const char* BINARY="monosynth.so";
+		static constexpr const char* binaryGet() noexcept
+			{return BINARY;}
+
+		static constexpr const char* MAINTAINER="Torbjörn Rathsman";
+		static constexpr const char* maintainerGet() noexcept
+			{return MAINTAINER;}
+
+		static constexpr const char* LICENSE="https://opensource.org/licenses/isc";
+		static constexpr const char* licenseGet() noexcept
+			{return LICENSE;}
+
+		static constexpr const char* TYPE="InstrumentPlugin";
+		static constexpr const char* typeGet() noexcept
+			{return TYPE;}
+
+
+		struct Ports
+			{
+			static constexpr unsigned int MIDI_IN=0;
+			static constexpr unsigned int CUTOFF=1;
+			static constexpr unsigned int AUDIO_OUT=2;
+
+			static constexpr unsigned int PORT_COUNT=3;
+
+			template<unsigned int port_id>
+			struct TypeGet
+				{typedef void type;};
+
+			static constexpr const char* PORTNAMES[]={"MIDI in","Cutoff","Audio out",nullptr};
+			};
+		};
+
+	template<>
+	struct PluginDescriptor::Ports::TypeGet<PluginDescriptor::Ports::MIDI_IN>
 			{typedef const LV2_Atom_Sequence* type;};
 
-		template<>
-		struct TypeGet<CUTOFF>
+	template<>
+	struct PluginDescriptor::Ports::TypeGet<PluginDescriptor::Ports::CUTOFF>
 			{typedef const float* type;};
 
-		template<>
-		struct TypeGet<AUDIO_OUT>
+	template<>
+	struct PluginDescriptor::Ports::TypeGet<PluginDescriptor::Ports::AUDIO_OUT>
 			{typedef float* type;};
 
-		constexpr const char* PORTNAMES[]={"MIDI in","Cutoff","Audio out",nullptr};
-		}
-
-	class PortMap
-		{
-		public:
-			template<unsigned int port_id>
-			auto get() noexcept
-				{
-				static_assert(port_id < PORT_COUNT,"Bad port number");
-				return reinterpret_cast<typename Ports::TypeGet<port_id>::type>(ports[port_id]);
-				}
-
-			PortMap& connect(unsigned int port_index,void* buffer) noexcept
-				{
-				ports[port_index]=buffer;
-				return *this;
-				}
-
-		private:
-			void* ports[PORT_COUNT];
-		};
-	};
+	}
 #endif

@@ -1,18 +1,42 @@
-//@	{"targets":[{"name":"test","type":"application"}]}
+//@	{
+//@	"targets":
+//@		[{"name":"monosynth.so","type":"lib_dynamic","dependencies":
+//@			[{"ref":"lv2plug","rel":"external"}]
+//@		}]
+//@	}
 
 #include "test.hpp"
-#include <vector>
-#include <cassert>
+#include <lv2plug/lv2plug.hpp>
 
-int main()
+namespace
+{
+class DspEngine:public LV2Plug::Plugin<MonophonicSynth::PluginDescriptor>
 	{
-	std::vector<float> buffer_a(64);
-	std::vector<float> buffer_b(64);
-	MonophonicSynth::PortMap ports;
-	ports.connect(MonophonicSynth::Ports::CUTOFF,buffer_a.data());
-	ports.connect(MonophonicSynth::Ports::AUDIO_OUT,buffer_b.data());
+	public:
+		DspEngine(double fs,const char* path_bundle,const LV2Plug::FeatureDescriptor& features);
 
-	assert(buffer_a.data()==ports.get<MonophonicSynth::Ports::CUTOFF>());
-	assert(buffer_b.data()==ports.get<MonophonicSynth::Ports::AUDIO_OUT>());
-	return 0;
+		void activate()
+			{}
+
+		void deactivate()
+			{}
+
+		void process(size_t n_frames) noexcept;
+
+	private:
+		double m_fs;
+		LV2Plug::FeatureDescriptor m_features;
+	};
+
+DspEngine::DspEngine(double fs,const char* path_bundle,const LV2Plug::FeatureDescriptor& features):
+	m_fs(fs),m_features(features)
+	{}
+
+void DspEngine::process(size_t n_frames) noexcept
+	{}
+}
+
+const LV2_Descriptor& LV2Plug::main()
+	{
+	return LV2Plug::descriptorGet<DspEngine>();
 	}
