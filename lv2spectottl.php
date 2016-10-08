@@ -67,7 +67,7 @@ lv2:port
 	<?=typeGet($port)?>;
 	lv2:index <?=$index?>;
 	lv2:symbol "<?=symbolFromName($port->{'name'})?>";
-	lv2:name "<?=$port->{'name'}?>;
+	lv2:name "<?=$port->{'name'}?>";
 <?php if($port->{'type'}=='Control') {?>
 	lv2:minimum <?=$port->{'minimum'}?>;
 	lv2:maximum <?=$port->{'maximum'}?>;
