@@ -10,5 +10,6 @@
 #include "feature_descriptor.hpp"
 #include "portmap.hpp"
 #include "plugin.hpp"
+#include "visibility.hpp"
 
 #endif

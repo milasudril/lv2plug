@@ -16,6 +16,7 @@
 #ifndef LV2PLUG_FEATUREDESCRIPTOR_HPP
 #define LV2PLUG_FEATUREDESCRIPTOR_HPP
 
+#include "visibility.hpp"
 #include <lv2/lv2plug.in/ns/ext/urid/urid.h>
 #include <lv2/lv2plug.in/ns/lv2core/lv2.h>
 
@@ -29,7 +30,7 @@ namespace LV2Plug
 			FeatureDescriptor(FeatureDescriptor&&)=default;
 			FeatureDescriptor& operator=(FeatureDescriptor&&)=default;
 
-			FeatureDescriptor(const LV2_Feature* const* features);
+			PRIVATE FeatureDescriptor(const LV2_Feature* const* features);
 
 			LV2_URID midi() const noexcept
 				{return id_MIDI;}

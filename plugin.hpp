@@ -6,11 +6,12 @@
 #define LV2PLUG_PLUGIN_HPP
 
 #include "portmap.hpp"
+#include "visibility.hpp"
 
 namespace LV2Plug
 	{
 	template<class PluginDescriptor>
-	class Plugin
+	class PRIVATE Plugin
 		{
 		public:
 			auto& portmap() noexcept
