@@ -20,8 +20,6 @@ class PRIVATE GtkUI:public LV2Plug::PluginUI<MonophonicSynth::PluginDescriptor>
 			{
 			m_widget=gtk_button_new_with_label(descriptor().nameGet());
 			gtk_widget_show(m_widget);
-			fprintf(stderr,"Hello %p\n",m_widget);
-			fflush(stdout);
 			}
 
 		~GtkUI()
@@ -37,6 +35,5 @@ class PRIVATE GtkUI:public LV2Plug::PluginUI<MonophonicSynth::PluginDescriptor>
 
 const LV2UI_Descriptor& LV2Plug::mainUI()
 	{
-	fprintf(stderr,"mainUI\n");
 	return LV2Plug::descriptorUiGet<GtkUI>();
 	}

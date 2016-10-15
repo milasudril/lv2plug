@@ -23,11 +23,10 @@ LV2Plug::FeatureDescriptor::FeatureDescriptor(const LV2_Feature* const* features
 	const LV2_URID_Map* feature_map=nullptr;
 	while(*features!=nullptr)
 		{
-		fprintf(stderr,"Host supports %s\n",(*features)->URI);
 		if(!strcmp((*features)->URI,LV2_URID__map))
 			{
 			feature_map=(LV2_URID_Map*) (*features)->data;
-		//	break;
+			break;
 			}
 		++features;
 		}

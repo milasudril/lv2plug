@@ -92,8 +92,7 @@ $plugindata=json_decode(file_get_contents($argv[1]))->{'specification'};
 	lv2:binary <<?=$plugindata->{'binary'}?>>;
 	doap:name "<?=$plugindata->{'name'}?>";
 	doap:maintainer [ foaf:name "<?=$plugindata->{'maintainer'}?>" ; ] ;
-	doap:license <<?=$plugindata->{'license'}?>>
-<?php if(isset($plugindata->{'ui'})) {?>
+	doap:license <<?=$plugindata->{'license'}?>><?php if(isset($plugindata->{'ui'})) {?>
 	ui:ui <<?=$plugindata->{'ui'}->{'uri'}?>>;
 <?php }?>
 
@@ -108,7 +107,10 @@ lv2:port
 	lv2:minimum <?=$port->{'minimum'}?>;
 	lv2:maximum <?=$port->{'maximum'}?>;
 	lv2:default <?=$port->{'default'}?>;
-<?php }?>
+<?php } else if($port->{'type'}=='MIDI') {?>
+	atom:bufferType atom:Sequence ;
+	atom:supports <http://lv2plug.in/ns/ext/midi#MidiEvent>,<http://lv2plug.in/ns/ext/time#Position> ;
+<?php } ?>
 	]<?=$port==end($plugindata->{'ports'})?'.':','?>
 
 <?php }?>
