@@ -68,6 +68,8 @@ transaction 'cp lv2spectottl.php "$PREFIX/bin"' \
 	'rm "$PREFIX/bin/lv2spectottl.php"'
 transaction 'cp __targets/targetlv2spec.so "$PREFIX/lib/maike"' \
 	'rm "$PREFIX/lib/maike/targetlv2spec.so"'
+transaction 'cp __targets/liblv2plug_ui.a "$PREFIX/lib"' \
+	'rm "$PREFIX/lib/liblv2plug_ui.a"' \
 
 if [ "$(id -u)" == "0" ]; then
 	chmod -R o+r "$PREFIX"/include

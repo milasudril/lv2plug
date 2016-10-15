@@ -5,7 +5,7 @@
 	 "name":"Monophonic synth"
 	,"uri":"http://example.org/monosynth"
 	,"binary":"monosynth.so"
-	,"maintainer":"Torbjörn Rathsman"
+	,"maintainer":"Milasudril"
 	,"license":"https://opensource.org/licenses/isc"
 	,"type":"InstrumentPlugin"
 
@@ -15,5 +15,11 @@
 		,{"name":"Cutoff","type":"Control","direction":"in","minimum":0,"maximum":1,"default":0.5}
 		,{"name":"Audio out","type":"Audio","direction":"out"}
 		]
+
+	,"ui":
+		{
+		 "type":"Gtk","binary":"monosynth-gtk.so"
+		,"uri":"http://example.org/monosynth#gtk"
+		}
 	}
 }

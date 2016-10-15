@@ -38,6 +38,22 @@ function typeGet($port)
 	return $ret;
 	}
 
+function uitype($type)
+	{
+	$typemap=array(
+		 'Cocoa'=>'CocoaUI'
+		,'Gtk2'=>'GtkUI'
+		,'Gtk'=>'GtkUI'
+		,'Gtk3'=>'Gtk3UI'
+		,'MacOSX Native'=>'CocoaUI'
+		,'Qt4'=>'Qt4UI'
+		,'Qt5'=>'Qt5UI'
+		,'Windows Native'=>'WindowsUI'
+		,'X11'=>'X11UI');
+	return $typemap[$type];
+	}
+
+
 if($argc<2)
 	{
 	error_log('No input file is specified');
@@ -61,16 +77,25 @@ $plugindata=json_decode(file_get_contents($argv[1]))->{'specification'};
 @prefix midi: <http://lv2plug.in/ns/ext/midi#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix urid: <http://lv2plug.in/ns/ext/urid#> .
+@prefix ui: <http://lv2plug.in/ns/extensions/ui#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 
-#TODO Add UI
+<?php if(isset($plugindata->{'ui'})) {?>
+<<?=$plugindata->{'ui'}->{'uri'}?>>
+	a ui:<?=uitype($plugindata->{'ui'}->{'type'})?>;
+	ui:binary <<?=$plugindata->{'ui'}->{'binary'}?>>.
+<?php }?>
 
 <<?=$plugindata->{'uri'}?>>
 	a lv2:Plugin;
 	a lv2:<?=$plugindata->{'type'}?>;
 	lv2:binary <<?=$plugindata->{'binary'}?>>;
 	doap:name "<?=$plugindata->{'name'}?>";
-	doap:maintainer [foaf:name "<?=$plugindata->{'maintainer'}?>"; ];
-	doap:license <<?=$plugindata->{'license'}?>>;
+	doap:maintainer [ foaf:name "<?=$plugindata->{'maintainer'}?>" ; ] ;
+	doap:license <<?=$plugindata->{'license'}?>>
+<?php if(isset($plugindata->{'ui'})) {?>
+	ui:ui <<?=$plugindata->{'ui'}->{'uri'}?>>;
+<?php }?>
 
 lv2:port
 <?php foreach($plugindata->{'ports'} as $index=>$port) {?>

@@ -11,11 +11,12 @@
 #include <lv2plug/lv2plug.hpp>
 #include <lv2/lv2plug.in/ns/ext/midi/midi.h>
 #include <cmath>
+#include <utility>
 
 class PRIVATE DspEngine:public LV2Plug::Plugin<MonophonicSynth::PluginDescriptor>
 	{
 	public:
-		DspEngine(double fs,const char* path_bundle,const LV2Plug::FeatureDescriptor& features);
+		DspEngine(double fs,const char* path_bundle,LV2Plug::FeatureDescriptor&& features);
 
 		void process(size_t n_frames) noexcept;
 
@@ -31,8 +32,8 @@ class PRIVATE DspEngine:public LV2Plug::Plugin<MonophonicSynth::PluginDescriptor
 		void eventsGet();
 	};
 
-DspEngine::DspEngine(double fs,const char* path_bundle,const LV2Plug::FeatureDescriptor& features):
-	m_fs(fs),m_features(features),m_key(69),m_amplitude(0.0f),m_phi(0.0f),m_v_prev(0.0f)
+DspEngine::DspEngine(double fs,const char* path_bundle,LV2Plug::FeatureDescriptor&& features):
+	m_fs(fs),m_features(std::move(features)),m_key(69),m_amplitude(0.0f),m_phi(0.0f),m_v_prev(0.0f)
 	{}
 
 static float frequencyGet(int key)
