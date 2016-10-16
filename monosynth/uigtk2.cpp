@@ -3,11 +3,14 @@
 //@		[{
 //@		"name":"monosynth-gtk.so","type":"lib_dynamic"
 //@		,"dependencies":
-//@			[{"ref":"lv2plug_ui","rel":"external"},{"ref":"plugindescriptor.hpp","rel":"internal"}]
-//@		,"cxxoptions":{"cflags_extra":["includeplugindescriptor.hpp"]}
+//@			[{"ref":"lv2plug_ui","rel":"external"}]
 //@		,"pkgconfig_libs":["gtk+-2.0"]
 //@		}]
 //@	}
+
+#include <maike/targetinclude.hpp>
+
+#include MAIKE_TARGET(plugindescriptor.hpp)
 
 #include <lv2plug/lv2plug_ui.hpp>
 #include <gtk/gtk.h>

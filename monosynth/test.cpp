@@ -3,10 +3,14 @@
 //@		[{
 //@		"name":"monosynth.so","type":"lib_dynamic"
 //@		,"dependencies":
-//@			[{"ref":"lv2plug","rel":"external"},{"ref":"plugindescriptor.hpp","rel":"internal"}]
-//@		,"cxxoptions":{"cflags_extra":["includeplugindescriptor.hpp"]}
+//@			[{"ref":"lv2plug","rel":"external"}]
+//		,"cxxoptions":{"cflags_extra":["DMAIKE_TARGET_DIRECTORY=__targets"]}
 //@		}]
 //@	}
+
+#include <maike/targetinclude.hpp>
+
+#include MAIKE_TARGET(plugindescriptor.hpp)
 
 #include <lv2plug/lv2plug.hpp>
 #include <lv2/lv2plug.in/ns/ext/midi/midi.h>
