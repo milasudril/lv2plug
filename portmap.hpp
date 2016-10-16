@@ -4,6 +4,7 @@
 #define LV2PLUG_PORTMAP_HPP
 
 #include <cassert>
+#include <type_traits>
 
 namespace LV2Plug
 	{
@@ -18,7 +19,7 @@ namespace LV2Plug
 
 				typedef typename PortDescriptor::template TypeGet<port_id>::type RetType;
 
-				return reinterpret_cast<RetType>(ports[port_id]);
+				return valueGet<RetType>(port_id);
 				}
 
 			PortMap& connect(unsigned int port_index,void* buffer) noexcept
@@ -35,6 +36,14 @@ namespace LV2Plug
 
 		private:
 			void* ports[portCountGet()];
+
+			template<class T>
+			std::enable_if_t<std::is_pointer<T>::value,T> valueGet(unsigned int port_id) noexcept
+				{return reinterpret_cast<T>(ports[port_id]);}
+
+			template<class T>
+			std::enable_if_t<!std::is_pointer<T>::value,T> valueGet(unsigned int port_id) noexcept
+				{return *reinterpret_cast<T*>(ports[port_id]);}
 		};
 	}
 

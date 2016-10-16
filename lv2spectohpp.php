@@ -45,10 +45,10 @@ function typeGet($port)
 	$ret='';
 	if($port->{'direction'}=='in')
 		{$ret.='const ';}
-	$typemap=array('MIDI'=>'LV2_Atom_Sequence'
-		,'Audio'=>'float'
+	$typemap=array('MIDI'=>'LV2_Atom_Sequence*'
+		,'Audio'=>'float*'
 		,'Control'=>'float');
-	$ret.=$typemap[$port->{'type'}].'*';
+	$ret.=$typemap[$port->{'type'}];
 	return $ret;
 	}
 

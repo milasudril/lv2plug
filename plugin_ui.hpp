@@ -31,6 +31,17 @@ namespace LV2Plug
 			PluginUI(const UIController& ctrl):m_ctrl(ctrl)
 				{}
 
+			template<unsigned int port>
+			static constexpr const char* portNameGet() noexcept
+				{
+				static_assert(port<Ports::PORT_COUNT,"Bad port number");
+				return Ports::PORTNAMES[port];
+				}
+
+			template<unsigned int port>
+			void portWrite(typename Ports::template TypeGet<port>::type value) noexcept
+				{m_ctrl.write(value,port);}
+
 		private:
 			UIController m_ctrl;
 		};

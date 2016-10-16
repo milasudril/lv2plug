@@ -71,7 +71,7 @@ constexpr auto ramp=make_ramp<1024>();
 void DspEngine::generate(size_t n_frames)
 	{
 	auto buffer=portmap().get<Ports::AUDIO_OUT>();
-	auto fc=*portmap().get<Ports::CUTOFF>();
+	auto fc=portmap().get<Ports::CUTOFF>();
 
 	auto f=frequencyGet(m_key)/m_fs;
 	auto a=m_amplitude;
@@ -110,13 +110,11 @@ void DspEngine::eventsGet()
 			switch(lv2_midi_message_type(msg))
 				{
 				case LV2_MIDI_MSG_NOTE_ON:
-					printf("Note on\n");
 					m_key=msg[1];
 					m_amplitude=msg[2]/127.0f;
 					break;
 
 				case LV2_MIDI_MSG_NOTE_OFF:
-					printf("Note off\n");
 					if(m_key==msg[1])
 						{m_amplitude=0.0f;}
 					break;
