@@ -11,5 +11,6 @@
 #include "plugin_ui.hpp"
 #include "visibility.hpp"
 #include "uicontroller.hpp"
+#include "uinotifier.hpp"
 
 #endif

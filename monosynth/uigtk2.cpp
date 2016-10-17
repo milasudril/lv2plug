@@ -43,19 +43,10 @@ class PRIVATE GtkUI:public LV2Plug::PluginUI<MonophonicSynth::PluginDescriptor>
 		void* widgetGet() noexcept
 			{return m_box;}
 
-		void portEvent(uint32_t port,uint32_t buffer_size,uint32_t format
-			,const void* data)
+		void sliderPositionSet(float value)
 			{
-			switch(port)
-				{
-				case Ports::CUTOFF:
-					{
-					auto v=*reinterpret_cast<const float*>(data);
-					v=1.0f - v;
-					gtk_range_set_value(reinterpret_cast<GtkRange*>(m_cutoff),v);
-					}
-					break;
-				}
+			value=1.0f - value;
+			gtk_range_set_value(reinterpret_cast<GtkRange*>(m_cutoff),value);
 			}
 
 	private:
@@ -75,3 +66,7 @@ const LV2UI_Descriptor& LV2Plug::mainUI()
 	{
 	return LV2Plug::descriptorUiGet<GtkUI>();
 	}
+
+template<>
+void update<GtkUI::Ports::CUTOFF>(GtkUI& ui,float value)
+	{ui.sliderPositionSet(value);}

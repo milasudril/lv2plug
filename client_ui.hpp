@@ -13,6 +13,7 @@
 
 #include "feature_descriptor.hpp"
 #include "uicontroller.hpp"
+#include "uinotifier.hpp"
 #include <lv2/lv2plug.in/ns/lv2core/lv2.h>
 #include <lv2/lv2plug.in/ns/extensions/ui/ui.h>
 #include <limits>
@@ -46,7 +47,9 @@ namespace LV2Plug
 	template<class ClientUI>
 	void portEvent(LV2UI_Handle handle,uint32_t port,uint32_t buffer_size,uint32_t format
 	,const void* data)
-		{static_cast<ClientUI*>(handle)->portEvent(port,buffer_size,format,data);}
+		{
+		UINotifier<ClientUI>::call(*static_cast<ClientUI*>(handle),port,data);
+		}
 
 	template<class ClientUI>
 	void destroy(LV2UI_Handle handle)
