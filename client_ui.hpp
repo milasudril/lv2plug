@@ -48,12 +48,13 @@ namespace LV2Plug
 	void portEvent(LV2UI_Handle handle,uint32_t port,uint32_t buffer_size,uint32_t format
 	,const void* data)
 		{
-		UINotifier<ClientUI>::call(*static_cast<ClientUI*>(handle),port,data);
+		auto ui=reinterpret_cast<ClientUI*>(handle);
+		UINotifier<ClientUI>::call(*ui,port,data);
 		}
 
 	template<class ClientUI>
 	void destroy(LV2UI_Handle handle)
-		{delete static_cast<ClientUI*>(handle);}
+		{delete reinterpret_cast<ClientUI*>(handle);}
 
 	template<class ClientUI>
 	const void* extensionDataGet(const char* uri)

@@ -36,7 +36,7 @@ namespace LV2Plug
 	template<class Client>
 	void portConnect(LV2_Handle handle,uint32_t port,void* data)
 		{
-		auto client=static_cast<Client*>(handle);
+		auto client=reinterpret_cast<Client*>(handle);
 		auto& portmap=client->portmap();
 		constexpr auto N_ports=portmap.portCountGet();
 		if(port>=N_ports)
@@ -49,19 +49,19 @@ namespace LV2Plug
 
 	template<class Client>
 	void activate(LV2_Handle handle)
-		{static_cast<Client*>(handle)->activate();}
+		{reinterpret_cast<Client*>(handle)->activate();}
 
 	template<class Client>
 	void process(LV2_Handle handle, uint32_t n_frames)
-		{static_cast<Client*>(handle)->process(n_frames);}
+		{reinterpret_cast<Client*>(handle)->process(n_frames);}
 
 	template<class Client>
 	void deactivate(LV2_Handle handle)
-		{static_cast<Client*>(handle)->deactivate();}
+		{reinterpret_cast<Client*>(handle)->deactivate();}
 
 	template<class Client>
 	void destroy(LV2_Handle handle)
-		{delete static_cast<Client*>(handle);}
+		{delete reinterpret_cast<Client*>(handle);}
 
 	template<class Client>
 	const void* extensionDataGet(const char* uri)
