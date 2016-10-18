@@ -1,16 +1,18 @@
 #!/usr/bin/env php
 <?php
-function outputRedirect(string $filename)
+function exception_error_handler($errno, $errstr, $errfile, $errline ) {
+    throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
+}
+set_error_handler("exception_error_handler");
+try
+{
+$output_buffer='';
+function ob_file_callback($buffer)
 	{
-	global $ob_file;
-	$ob_file=fopen($filename,'w');
-	function ob_file_callback($buffer)
-		{
-		global $ob_file;
-		fwrite($ob_file,$buffer);
-		}
-	ob_start('ob_file_callback');
+	global $output_buffer;
+	$output_buffer.=$buffer;
 	}
+ob_start('ob_file_callback');
 
 function CamelCase(string $str)
 	{
@@ -45,9 +47,9 @@ function typeGet($port)
 	$ret='';
 	if($port->{'direction'}=='in')
 		{$ret.='const ';}
-	$typemap=array('MIDI'=>'LV2_Atom_Sequence*'
-		,'Audio'=>'float*'
-		,'Control'=>'float');
+	$typemap=array('midi'=>'LV2_Atom_Sequence*'
+		,'audio'=>'float*'
+		,'control'=>'float');
 	$ret.=$typemap[$port->{'type'}];
 	return $ret;
 	}
@@ -65,7 +67,6 @@ if($argc<3)
 	}
 $content=json_decode(file_get_contents($argv[1]));
 $plugindata=$content->{'specification'};
-outputRedirect($argv[2].'/'.$content->{'targets'}[0]->{'name'});
 $name=$plugindata->{'name'};
 $namespace=CamelCase($name);
 $guard=guardname($namespace,$content->{'targets'}[0]->{'name'});
@@ -128,3 +129,13 @@ if(isset($plugindata->{'ui'})) {?>
 <?php }?>
 	}
 #endif
+<?php 
+$ob_file=fopen($argv[2].'/'.$content->{'targets'}[0]->{'name'},'w','w');
+ob_flush();
+fwrite($ob_file,$output_buffer);
+}
+catch(Exception $e)
+{
+error_log($e->getMessage());
+}
+?>
