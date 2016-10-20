@@ -118,5 +118,7 @@ fwrite($ob_file,$output_buffer);
 catch(Exception $e)
 {
 error_log($e->getMessage());
+exit(-1);
 }
+exit(0);
 ?>
