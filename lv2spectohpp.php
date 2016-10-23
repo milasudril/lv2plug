@@ -131,6 +131,9 @@ namespace <?=$namespace?>
 	struct PluginDescriptor::Port<PluginDescriptor::Ports::<?=cxxconstant($port->{'name'})?>>
 		{
 		typedef <?=typeGet($port)?> type;
+		static constexpr unsigned int id() noexcept
+			{return <?=$index?>;}
+
 		static constexpr const char* name() noexcept
 			{return "<?=$port->{'name'}?>";}
 <?php if(isset($port->{'minimum'})){ ?>
