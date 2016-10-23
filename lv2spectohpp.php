@@ -131,20 +131,24 @@ namespace <?=$namespace?>
 	struct PluginDescriptor::Port<PluginDescriptor::Ports::<?=cxxconstant($port->{'name'})?>>
 		{
 		typedef <?=typeGet($port)?> type;
+
 		static constexpr unsigned int id() noexcept
 			{return <?=$index?>;}
 
 		static constexpr const char* name() noexcept
 			{return "<?=$port->{'name'}?>";}
 <?php if(isset($port->{'minimum'})){ ?>
+
 		static constexpr type minimum() noexcept
 			{return static_cast<type>(<?=$port->{'minimum'}?>);}
 <?php } ?>
 <?php if(isset($port->{'maximum'})){ ?>
+
 		static constexpr type maximum() noexcept
 			{return static_cast<type>(<?=$port->{'maximum'}?>);}
 <?php } ?>
 <?php if(isset($port->{'default'})){ ?>
+
 		static constexpr type valueDefault() noexcept
 			{return static_cast<type>(<?=$port->{'default'}?>);}
 <?php } ?>
