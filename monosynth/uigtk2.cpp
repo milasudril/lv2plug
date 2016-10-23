@@ -23,10 +23,13 @@ class PRIVATE GtkUI:public LV2Plug::PluginUI<MonophonicSynth::PluginDescriptor>
 			{
 			auto box=reinterpret_cast<GtkBox*>(gtk_vbox_new(FALSE,0));
 			m_box=reinterpret_cast<GtkWidget*>(box);
-			auto label=gtk_label_new(portNameGet<Ports::CUTOFF>());
+			auto label=gtk_label_new(
+				Port<MonophonicSynth::PluginDescriptor::Ports::CUTOFF>::name()
+				);
 			gtk_box_pack_start(box,reinterpret_cast<GtkWidget*>(label),0,0,0);
 
-			auto cutoff=gtk_vscale_new_with_range(0,1,1e-7f);
+			auto cutoff=gtk_vscale_new_with_range(Port<MonophonicSynth::PluginDescriptor::Ports::CUTOFF>::minimum()
+				,Port<MonophonicSynth::PluginDescriptor::Ports::CUTOFF>::maximum(),1e-7f);
 			m_cutoff=cutoff;
 			gtk_scale_set_draw_value(reinterpret_cast<GtkScale*>(cutoff),0);
 			g_signal_connect(cutoff,"value_changed",G_CALLBACK(cutoff_update),this);

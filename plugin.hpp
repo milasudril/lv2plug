@@ -16,6 +16,9 @@ namespace LV2Plug
 		public:
 			typedef typename PluginDescriptor::Ports Ports;
 
+			template<unsigned int port_id>
+			using Port=typename PluginDescriptor::template Port<port_id>;
+
 			auto& portmap() noexcept
 				{return m_ports;}
 
@@ -35,7 +38,7 @@ namespace LV2Plug
 				{}
 
 		private:
-			PortMap<Ports> m_ports;
+			PortMap<PluginDescriptor> m_ports;
 		};
 	}
 

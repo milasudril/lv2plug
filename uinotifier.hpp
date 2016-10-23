@@ -47,12 +47,19 @@ namespace LV2Plug
 					{return (*s_ui_callbacks.m_data[k])(ui,data);}
 				}
 
+			static constexpr unsigned int portCountGet() noexcept
+				{
+				return ClientUI::descriptor().portCount();
+				}
+
 		private:
+			static constexpr unsigned int PORT_COUNT=portCountGet();
+
 			template<unsigned int N=0,int dummy=0>
 			struct UICallbacksElement:public UICallbacksElement<N+1,dummy>
 				{static constexpr auto element=process<ClientUI,N>;};
 			template<int dummy>
-			struct UICallbacksElement<ClientUI::Ports::PORT_COUNT,dummy>
+			struct UICallbacksElement<PORT_COUNT,dummy>
 				{};
 
 			template<class Callback>
@@ -64,7 +71,7 @@ namespace LV2Plug
 				{return UICallbacksElement<index>::element;}
 
 			template<unsigned int index=0,class Callback>
-			static constexpr std::enable_if_t<index!=ClientUI::Ports::PORT_COUNT,void>
+			static constexpr std::enable_if_t<index!=PORT_COUNT,void>
 			uiCallbacksEnumImpl(Callback& cb)
 				{
 				cb(index,uiCallbacksGet<index>());
@@ -72,7 +79,7 @@ namespace LV2Plug
 				}
 
 			template<unsigned int index=0,class Callback>
-			static constexpr std::enable_if_t<index==ClientUI::Ports::PORT_COUNT,void>
+			static constexpr std::enable_if_t<index==PORT_COUNT,void>
 			uiCallbacksEnumImpl(Callback& cb)
 				{}
 
@@ -80,20 +87,20 @@ namespace LV2Plug
 				{
 				constexpr void operator()(size_t k,UICallback<ClientUI> notifier)
 					{ret.m_data[k]=notifier;}
-				Array<UICallback<ClientUI>,ClientUI::Ports::PORT_COUNT>& ret;
+				Array<UICallback<ClientUI>,PORT_COUNT>& ret;
 				};
 			static constexpr auto uiCallbacksCollect()
 				{
-				Array<UICallback<ClientUI>,ClientUI::Ports::PORT_COUNT> ret{};
+				Array<UICallback<ClientUI>,PORT_COUNT> ret{};
 				uiCallbacksEnum(UICallbackSet{ret});
 				return ret;
 				}
-			static constexpr const Array<UICallback<ClientUI>,ClientUI::Ports::PORT_COUNT> s_ui_callbacks=
+			static constexpr const Array<UICallback<ClientUI>,PORT_COUNT> s_ui_callbacks=
 				uiCallbacksCollect();
 		};
 
 	template<class ClientUI>
-	constexpr const Array<UICallback<ClientUI>,ClientUI::Ports::PORT_COUNT> UINotifier<ClientUI>::s_ui_callbacks;
+	constexpr const Array<UICallback<ClientUI>,UINotifier<ClientUI>::PORT_COUNT> UINotifier<ClientUI>::s_ui_callbacks;
 	}
 
 #endif

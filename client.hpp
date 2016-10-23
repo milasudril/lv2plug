@@ -25,10 +25,10 @@ namespace LV2Plug
 		try
 			{return new Client(f_s,path_bundle,FeatureDescriptor(features));}
 		catch(const char* errstr)
-			{fprintf(stderr,"%s: %s\n",Client::descriptor().nameGet(),errstr);}
+			{fprintf(stderr,"%s: %s\n",Client::descriptor().name(),errstr);}
 		catch(...)
 			{
-			fprintf(stderr,"%s: Initialization failed\n",Client::descriptor().nameGet());
+			fprintf(stderr,"%s: Initialization failed\n",Client::descriptor().name());
 			}
 		return nullptr;
 		}
@@ -41,7 +41,7 @@ namespace LV2Plug
 		constexpr auto N_ports=portmap.portCountGet();
 		if(port>=N_ports)
 			{
-			fprintf(stderr,"%s has only %u ports",Client::descriptor().nameGet(),N_ports);
+			fprintf(stderr,"%s has only %u ports",Client::descriptor().name(),N_ports);
 			return;
 			}
 		portmap.connect(port,data);
@@ -76,7 +76,7 @@ namespace LV2Plug
 	template<class Client>
 	const LV2_Descriptor Descriptor<Client>::descriptor=
 		{
-		 Client::descriptor().uriGet()
+		 Client::descriptor().uri()
 		,create<Client>
 		,portConnect<Client>
 		,activate<Client>

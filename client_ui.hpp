@@ -36,10 +36,10 @@ namespace LV2Plug
 			return ui;
 			}
 		catch(const char* errstr)
-			{fprintf(stderr,"%s: %s\n",ClientUI::descriptor().nameGet(),errstr);}
+			{fprintf(stderr,"%s: %s\n",ClientUI::descriptor().name(),errstr);}
 		catch(...)
 			{
-			fprintf(stderr,"%s: Initialization failed\n",ClientUI::descriptor().nameGet());
+			fprintf(stderr,"%s: Initialization failed\n",ClientUI::descriptor().name());
 			}
 		return nullptr;
 		}
@@ -69,7 +69,7 @@ namespace LV2Plug
 	template<class ClientUI>
 	const LV2UI_Descriptor DescriptorUI<ClientUI>::descriptor=
 		{
-		 ClientUI::descriptor().uiUriGet()
+		 ClientUI::descriptor().uiUri()
 		,create<ClientUI>
 		,destroy<ClientUI>
 		,portEvent<ClientUI>

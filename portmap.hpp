@@ -17,7 +17,7 @@ namespace LV2Plug
 				{
 				static_assert(port_id < portCountGet(),"Bad port number");
 
-				typedef typename PortDescriptor::template TypeGet<port_id>::type RetType;
+				typedef typename PortDescriptor::template Port<port_id>::type RetType;
 
 				return valueGet<RetType>(port_id);
 				}
@@ -31,7 +31,7 @@ namespace LV2Plug
 
 			static constexpr unsigned int portCountGet() noexcept
 				{
-				return PortDescriptor::PORT_COUNT;
+				return PortDescriptor::portCount();
 				}
 
 		private:

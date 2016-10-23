@@ -19,6 +19,9 @@ namespace LV2Plug
 
 			typedef typename PluginDescriptor::Ports Ports;
 
+			template<unsigned int port_id>
+			using Port=typename PluginDescriptor::template Port<port_id>;
+
 			static constexpr PluginDescriptor descriptor() noexcept
 				{return PluginDescriptor{};}
 
@@ -28,16 +31,9 @@ namespace LV2Plug
 			PluginUI(const UIController& ctrl):m_ctrl(ctrl)
 				{}
 
-			template<unsigned int port>
-			static constexpr const char* portNameGet() noexcept
-				{
-				static_assert(port<Ports::PORT_COUNT,"Bad port number");
-				return Ports::PORTNAMES[port];
-				}
-
 		protected:
 			template<unsigned int port>
-			void portWrite(typename Ports::template TypeGet<port>::type value) noexcept
+			void portWrite(typename PluginDescriptor::template Port<port>::type value) noexcept
 				{m_ctrl.write(value,port);}
 
 		private:
@@ -45,7 +41,7 @@ namespace LV2Plug
 		};
 
 	template<unsigned int PortNumber,class ClientUI>
-	using PortType=typename ClientUI::Ports::template TypeGet<PortNumber>::type;
+	using PortType=typename ClientUI::template Port<PortNumber>::type;
 	}
 
 template<unsigned int PortNumber,class ClientUI>
