@@ -21,6 +21,15 @@ function symbolFromName(string $name)
 	return implode('_',$x);
 	}
 
+function nameGet($port)
+	{
+	$ret='';
+	if(isset($port->{'prefix'}))
+		{$ret.=$port->{'prefix'}.' ';}
+	$ret.=$port->{'name'};
+	return $ret;
+	}
+
 function typeGet($port)
 	{
 	$ret='';
@@ -47,6 +56,11 @@ function uitype($type)
 		,'Qt5'=>'Qt5UI'
 		,'Windows Native'=>'WindowsUI'
 		,'X11'=>'X11UI');
+	return $typemap[$type];
+	}
+function typeLogicalGet($type)
+	{
+	$typemap=array('bool'=>'lv2:toggled');
 	return $typemap[$type];
 	}
 
@@ -88,26 +102,30 @@ $now=new DateTime();
 
 <<?=$plugindata->{'uri'}?>>
 	a lv2:Plugin;
-	a lv2:<?=$plugindata->{'type'}?>;
-	lv2:binary <<?=$plugindata->{'binary'}?>>;
-	doap:name "<?=$plugindata->{'name'}?>";
+	a lv2:<?=$plugindata->{'type'}?> ;
+	lv2:binary <<?=$plugindata->{'binary'}?>> ;
+	doap:name "<?=$plugindata->{'name'}?>" ;
 	doap:maintainer [ foaf:name "<?=$plugindata->{'maintainer'}?>" ; ] ;
 	doap:license <<?=$plugindata->{'license'}?>>
 <?php if(isset($plugindata->{'ui'})) {?>
-	ui:ui <<?=$plugindata->{'ui'}->{'uri'}?>>;
+	ui:ui <<?=$plugindata->{'ui'}->{'uri'}?>> ;
 <?php }?>
 
 lv2:port
-<?php foreach($plugindata->{'ports'} as $index=>$port) {?>
+<?php foreach($plugindata->{'ports'} as $index=>$port) {
+	$name_full=nameGet($port)?>
 	[
-	<?=typeGet($port)?>;
-	lv2:index <?=$index?>;
-	lv2:symbol "<?=symbolFromName($port->{'name'})?>";
-	lv2:name "<?=$port->{'name'}?>";
+	<?=typeGet($port)?> ;
+	lv2:index <?=$index?> ;
+	lv2:symbol "<?=symbolFromName($name_full)?>" ;
+	lv2:name "<?=$name_full?>" ;
 <?php if($port->{'type'}=='control') {?>
-	lv2:minimum <?=$port->{'minimum'}?>;
-	lv2:maximum <?=$port->{'maximum'}?>;
-	lv2:default <?=$port->{'default'}?>;
+	lv2:minimum <?=$port->{'minimum'}?> ;
+	lv2:maximum <?=$port->{'maximum'}?> ;
+	lv2:default <?=$port->{'default'}?> ;
+<?php if(isset($port->{'ui_hint'})){ ?>
+	lv2:portProperty <?=typeLogicalGet($port->{'ui_hint'})?> ;
+<?php }?>
 <?php } else if($port->{'type'}=='midi') {?>
 	atom:bufferType atom:Sequence ;
 	atom:supports <http://lv2plug.in/ns/ext/midi#MidiEvent>,<http://lv2plug.in/ns/ext/time#Position> ;

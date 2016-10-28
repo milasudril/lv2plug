@@ -54,6 +54,15 @@ function typeGet($port)
 	return $ret;
 	}
 
+function nameGet($port)
+	{
+	$ret='';
+	if(isset($port->{'prefix'}))
+		{$ret.=$port->{'prefix'}.' ';}
+	$ret.=$port->{'name'};
+	return $ret;
+	}
+
 if($argc<2)
 	{
 	error_log('No input file is specified');
@@ -110,8 +119,10 @@ namespace <?=$namespace?>
 
 		struct Ports
 			{
-<?php foreach($plugindata->{'ports'} as $index=>$port) {?>
-			static constexpr unsigned int <?=cxxconstant($port->{'name'})?>=<?=$index ?>;
+<?php foreach($plugindata->{'ports'} as $index=>$port) {
+		$name_full=nameGet($port);
+?>
+			static constexpr unsigned int <?=cxxconstant($name_full)?>=<?=$index ?>;
 <?php }?>
 			static constexpr const char* PORTNAMES[]={<?php foreach($plugindata->{'ports'} as $index=>$port)
 	{
@@ -123,20 +134,34 @@ namespace <?=$namespace?>
 		struct Port
 			{
 			typedef void type;
+			typedef void type_logical;
 			};
 		};
-<?php foreach($plugindata->{'ports'} as $index=>$port) {?>
+<?php foreach($plugindata->{'ports'} as $index=>$port) {
+	$name_full=nameGet($port);
+?>
 
 	template<>
-	struct PluginDescriptor::Port<PluginDescriptor::Ports::<?=cxxconstant($port->{'name'})?>>
+	struct PluginDescriptor::Port<PluginDescriptor::Ports::<?=cxxconstant($name_full)?>>
 		{
 		typedef <?=typeGet($port)?> type;
+
+<?php if(isset($port->{'ui_hint'})){ ?>
+		typedef <?=$port->{'ui_hint'}?> type_logical;
+<?php } else {?>
+		typedef type type_logical;
+<?php } ?>
 
 		static constexpr unsigned int id() noexcept
 			{return <?=$index?>;}
 
 		static constexpr const char* name() noexcept
 			{return "<?=$port->{'name'}?>";}
+<?php if(isset($port->{'prefix'})){ ?>
+
+		static constexpr const char* prefix() noexcept
+			{return "<?=$port->{'prefix'}?>";}
+<?php } ?>
 <?php if(isset($port->{'minimum'})){ ?>
 
 		static constexpr type minimum() noexcept
