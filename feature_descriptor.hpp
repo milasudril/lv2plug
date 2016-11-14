@@ -59,8 +59,8 @@ namespace LV2Plug
 			LV2_URID barBeat() const noexcept
 				{return id_barBeat;}
 
-			LV2_URID Beat() const noexcept
-				{return id_Beat;}
+			LV2_URID beat() const noexcept
+				{return id_beat;}
 
 			LV2_URID beatsPerMinute() const noexcept
 				{return id_beatsPerMinute;}
@@ -74,6 +74,12 @@ namespace LV2Plug
 			LV2_URID fps() const noexcept
 				{return id_fps;}
 
+			LV2_URID beatsPerBar() const noexcept
+				{return id_beatsPerBar;}
+
+			LV2_URID bar() const noexcept
+				{return id_bar;}
+
 
 		private:
 			LV2_URID id_MIDI;
@@ -85,7 +91,9 @@ namespace LV2Plug
 			LV2_URID id_Double;
 			LV2_URID id_Position;
 			LV2_URID id_barBeat;
-			LV2_URID id_Beat;
+			LV2_URID id_bar;
+			LV2_URID id_beatsPerBar;
+			LV2_URID id_beat;
 			LV2_URID id_beatsPerMinute;
 			LV2_URID id_speed;
 			LV2_URID id_frame;

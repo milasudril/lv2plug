@@ -42,7 +42,9 @@ LV2Plug::FeatureDescriptor::FeatureDescriptor(const LV2_Feature* const* features
 	id_Double         = feature_map->map(feature_map->handle, LV2_ATOM__Double);
 	id_Position       = feature_map->map(feature_map->handle, LV2_TIME__Position);
 	id_barBeat        = feature_map->map(feature_map->handle, LV2_TIME__barBeat);
-	id_Beat           = feature_map->map(feature_map->handle, LV2_TIME__beat);
+	id_beat           = feature_map->map(feature_map->handle, LV2_TIME__beat);
+	id_bar            = feature_map->map(feature_map->handle, LV2_TIME__bar);
+	id_beatsPerBar    = feature_map->map(feature_map->handle, LV2_TIME__beatsPerBar);
 	id_beatsPerMinute = feature_map->map(feature_map->handle, LV2_TIME__beatsPerMinute);
 	id_speed          = feature_map->map(feature_map->handle, LV2_TIME__speed);
 	id_frame          = feature_map->map(feature_map->handle, LV2_TIME__frame);
