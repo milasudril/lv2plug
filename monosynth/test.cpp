@@ -17,27 +17,45 @@
 #include <cmath>
 #include <utility>
 
+namespace
+	{
+	struct EngineFeatureRequest
+		{
+		static constexpr const char* content[]={LV2_MIDI__MidiEvent};
+		static constexpr size_t size() noexcept
+			{return 1;}
+
+		static constexpr const char* get(size_t k) noexcept
+			{return content[k];}
+		};
+	}
+
+
 class PRIVATE DspEngine:public LV2Plug::Plugin<MonophonicSynth::PluginDescriptor>
 	{
 	public:
-		DspEngine(double fs,const char* path_bundle,LV2Plug::FeatureDescriptor&& features);
+		typedef EngineFeatureRequest FeatureRequest;
+		DspEngine(double fs,const char* path_bundle
+			,LV2Plug::FeatureDescriptor<FeatureRequest>&& features);
 
 		void process(size_t n_frames) noexcept;
 
 	private:
 		double m_fs;
-		LV2Plug::FeatureDescriptor m_features;
 		int m_key;
 		float m_amplitude;
 		float m_phi;
 		float m_v_prev;
+		LV2Plug::FeatureDescriptor<FeatureRequest> m_features;
 
 		void generate(size_t N);
 		void eventsGet();
 	};
 
-DspEngine::DspEngine(double fs,const char* path_bundle,LV2Plug::FeatureDescriptor&& features):
-	m_fs(fs),m_features(std::move(features)),m_key(69),m_amplitude(0.0f),m_phi(0.0f),m_v_prev(0.0f)
+DspEngine::DspEngine(double fs,const char* path_bundle
+	,LV2Plug::FeatureDescriptor<FeatureRequest>&& features):
+	m_fs(fs),m_key(69),m_amplitude(0.0f),m_phi(0.0f),m_v_prev(0.0f)
+	,m_features(std::move(features))
 	{}
 
 static float frequencyGet(int key)
@@ -104,7 +122,7 @@ void DspEngine::eventsGet()
 	while(!lv2_atom_sequence_is_end(&(midi_in->body)
 		,midi_in->atom.size,ev))
 		{
-		if(ev->body.type==m_features.midi())
+		if(ev->body.type==m_features.get<LV2Plug::make_key(LV2_MIDI__MidiEvent)>())
 			{
 			const uint8_t* const msg=(const uint8_t*)(ev + 1);
 			switch(lv2_midi_message_type(msg))

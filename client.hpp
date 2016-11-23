@@ -23,13 +23,16 @@ namespace LV2Plug
 		,const char* path_bundle,const LV2_Feature* const* features)
 		{
 		try
-			{return new Client(f_s,path_bundle,FeatureDescriptor(features));}
+			{
+			return new Client(f_s,path_bundle
+				,FeatureDescriptor<typename Client::FeatureRequest>(features));
+			}
+
 		catch(const char* errstr)
 			{fprintf(stderr,"%s: %s\n",Client::descriptor().name(),errstr);}
 		catch(...)
-			{
-			fprintf(stderr,"%s: Initialization failed\n",Client::descriptor().name());
-			}
+			{fprintf(stderr,"%s: Initialization failed\n",Client::descriptor().name());}
+
 		return nullptr;
 		}
 

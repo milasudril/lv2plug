@@ -31,7 +31,8 @@ namespace LV2Plug
 		{
 		try
 			{
-			auto ui=new ClientUI(path_bundle,UIController(controller,write_function),FeatureDescriptor(features));
+			auto ui=new ClientUI(path_bundle,UIController(controller,write_function)
+				,FeatureDescriptor<typename ClientUI::FeatureRequest>(features));
 			*widget=ui->widgetGet();
 			return ui;
 			}
