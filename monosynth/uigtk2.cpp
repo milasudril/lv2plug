@@ -15,11 +15,26 @@
 #include <lv2plug/lv2plug_ui.hpp>
 #include <gtk/gtk.h>
 
+namespace
+	{
+	struct FeatureRequestUI
+		{
+		static constexpr const char* get(size_t k) noexcept
+			{return nullptr;}
+
+		static constexpr size_t size() noexcept
+			{return 0;}
+		};
+	}
+
 class PRIVATE GtkUI:public LV2Plug::PluginUI<MonophonicSynth::PluginDescriptor>
 	{
 	public:
+		typedef FeatureRequestUI FeatureRequest;
+
 		GtkUI(const char* path_bundle,const LV2Plug::UIController& controller
-			,LV2Plug::FeatureDescriptor&& features):Base(controller),m_features(features)
+			,LV2Plug::FeatureDescriptor<FeatureRequestUI>&& features):
+			Base(controller)
 			{
 			auto box=reinterpret_cast<GtkBox*>(gtk_vbox_new(FALSE,0));
 			m_box=reinterpret_cast<GtkWidget*>(box);
@@ -59,8 +74,6 @@ class PRIVATE GtkUI:public LV2Plug::PluginUI<MonophonicSynth::PluginDescriptor>
 			auto v=1.0 - gtk_range_get_value(reinterpret_cast<GtkRange*>(self->m_cutoff));
 			self->portWrite<Ports::CUTOFF>(v);
 			}
-
-		LV2Plug::FeatureDescriptor m_features;
 		GtkWidget* m_box;
 		GtkWidget* m_cutoff;
 	};
