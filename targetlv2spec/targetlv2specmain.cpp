@@ -2,7 +2,7 @@
 //@		{
 //@		"targets":
 //@			[{
-//@			 "name":"targetlv2spec.so","type":"lib_dynamic"
+//@			 "name":"../targetlv2spec.so","type":"lib_dynamic"
 //@			,"dependencies":
 //@				[{"ref":"pthread","rel":"external"}
 //@				,{"ref":"maikeplug","rel":"external"}]

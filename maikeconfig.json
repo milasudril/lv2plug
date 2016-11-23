@@ -1,12 +1,13 @@
 {
     "directoryoptions":{
-        "paths_full_reject":[],
+        "paths_full_reject":["monosynth"],
         "paths_reject":[
             "..",
             ".",
-            "__targets"
+            "__targets",
+			".git"
         ],
-        "recursive":0
+        "recursive":1
     },
     "source_files":[
         "."
@@ -21,10 +22,15 @@
                         "{cxxversion}",
                         "-Wall",
                         "{cflags_extra}",
+                        "{iquote}",
                         "{includedir}",
+                        "-DMAIKE_TARGET_DIRECTORY={target_directory}",
+                        "-DMAIKE_CURRENT_DIRECTORY={current_directory}",
+						"-s",
                         "-o",
                         "{target}",
                         "{source}",
+                        "{libdir}",
                         "{dependencies}"
                     ],
                     "name":"g++"
@@ -32,7 +38,7 @@
                 "cflags_extra":[],
                 "cflags_format":"-^",
                 "cxxversion_max":-1,
-                "cxxversion_min":201402,
+                "cxxversion_min":201103,
                 "dllcompile":{
                     "args":[
                         "-O2",
@@ -40,11 +46,16 @@
                         "{cxxversion}",
                         "-Wall",
                         "{cflags_extra}",
+                        "{iquote}",
                         "{includedir}",
+                        "-DMAIKE_TARGET_DIRECTORY={target_directory}",
+                        "-DMAIKE_CURRENT_DIRECTORY={current_directory}",
                         "-shared",
+						"-s",
                         "-o",
                         "{target}",
                         "{source}",
+                        "{libdir}",
                         "{dependencies}"
                     ],
                     "name":"g++"
@@ -52,6 +63,10 @@
                 "includedir":[],
                 "includedir_format":"-I^",
                 "includedir_noscan":[],
+                "iquote":[
+                    "."
+                ],
+                "iquote_format":"-iquote^",
                 "libcompile":{
                     "args":[
                         "rcs",
@@ -72,7 +87,10 @@
                         "{cxxversion}",
                         "-Wall",
                         "{cflags_extra}",
+                        "{iquote}",
                         "{includedir}",
+                        "-DMAIKE_TARGET_DIRECTORY={target_directory}",
+                        "-DMAIKE_CURRENT_DIRECTORY={current_directory}",
                         "-o",
                         "{target}",
                         "{source}"
@@ -128,9 +146,56 @@
             ],
             "name":"pythondefault",
             "plugin":"targetpython"
+        },
+        {
+            "config":{
+                "tar":{
+                    "command":{
+                        "args":[
+                            "{target_strip}",
+                            "{root_append}",
+                            "{compressor}",
+                            "-cf",
+                            "{target}",
+                            "-T",
+                            "-"
+                        ],
+                        "name":"tar"
+                    },
+                    "compressors":{
+                        "bzip2":"-j",
+                        "gzip":"-z",
+                        "lzma":"-J"
+                    },
+                    "root_append":"--transform=s,\\\\(.*\\\\),^\\\\1,g",
+                    "target_strip":"--transform=s,\\^^,,g"
+                },
+                "zip":{
+                    "create":{
+                        "args":[
+                            "-@",
+                            "{target}"
+                        ],
+                        "name":"zip"
+                    },
+                    "rename":{
+                        "args":[
+                            "-w",
+                            "{target}"
+                        ],
+                        "name":"zipnote"
+                    }
+                }
+            },
+            "filename_exts":[
+                ".archive"
+            ],
+            "name":"archivedefault",
+            "plugin":"targetarchive"
         }
     ],
     "targetinfo":{
+        "project_root":"",
         "target_directory":"__targets"
     }
 }
