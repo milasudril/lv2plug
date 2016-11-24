@@ -37,7 +37,7 @@ namespace LV2Plug
 			{
 			ArrayFixed<uint64_t,ConstArray::size()> ret{};
 			for(size_t k=0;k<ConstArray::size();++k)
-				{ret.content[k]=make_key(ConstArray::content[k]);}
+				{ret.content[k]=make_key(ConstArray::get(k));}
 			return ret;
 			}
 		}
