@@ -1,6 +1,7 @@
 //@	{"targets":[{"name":"targetlv2specloader.o","type":"object"}]}
 
 #include "targetlv2specloader.hpp"
+#include "targetlv2spec.hpp"
 #include <maike/readbuffer.hpp>
 #include <maike/filein.hpp>
 #include <maike/resourceobject.hpp>
@@ -8,15 +9,13 @@
 #include <maike/errormessage.hpp>
 #include <maike/variant.hpp>
 #include <maike/target_factorydelegator.hpp>
-#include <maike/dependencygraph.hpp>
-#include <maike/target.hpp>
 #include <maike/spider.hpp>
 
 using namespace Maike;
 
-TargetLV2SpecLoader::TargetLV2SpecLoader()
+TargetLV2SpecLoader::TargetLV2SpecLoader(const TargetLV2SpecCompiler& intpret):
+	r_intpret(intpret)
 	{}
-
 
 namespace
 	{
@@ -59,21 +58,18 @@ size_t TagExtractor::read(void* buffer,size_t length)
 	return n_read;
 	}
 
-namespace
-	{
-	class DependencyCollector:public Target_FactoryDelegator::DependencyCollector
-		{
-		public:
-			bool operator()(const Target_FactoryDelegator& delegator,Dependency& dep_primary
-				,ResourceObject::Reader rc_reader)
-				{return 0;}
-		};
-	}
-
 void TargetLV2SpecLoader::targetsLoad(const char* name_src,const char* in_dir
 	,Spider& spider,DependencyGraph& graph,Target_FactoryDelegator& factory) const
 	{
 	FileIn source(name_src);
-	factory.targetsCreate(TagExtractor(source),name_src,in_dir
-		,DependencyCollector(),graph);
+	TagExtractor extractor(source);
+	factory.targetsCreate(extractor,name_src,in_dir,*this,spider,graph);
+	}
+
+Handle<Target> TargetLV2SpecLoader::targetCreate(const ResourceObject& obj
+	,const char* name_src,const char* in_dir,const char* root	
+	,size_t id,size_t line_count) const
+	{
+	return Handle<TargetLV2Spec>( TargetLV2Spec::create(obj,r_intpret,name_src,in_dir,root
+		,id,line_count) );
 	}

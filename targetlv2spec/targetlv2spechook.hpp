@@ -10,7 +10,6 @@
 
 #include "targetlv2speccompiler.hpp"
 #include "targetlv2specloader.hpp"
-#include "targetlv2specfactory.hpp"
 
 namespace Maike
 	{
@@ -20,10 +19,6 @@ namespace Maike
 			static TargetLV2SpecHook* create(const ParameterSetDumpable& params);
 
 			static TargetLV2SpecHook* create(ParameterSet&& params)=delete;
-
-
-			const TargetLV2SpecFactory& factoryGet() const noexcept
-				{return m_factory;}
 
 			const TargetLV2SpecLoader& loaderGet() const noexcept
 				{return m_loader;}
@@ -39,7 +34,6 @@ namespace Maike
 		private:
 			TargetLV2SpecCompiler m_intpret;
 			TargetLV2SpecLoader m_loader;
-			TargetLV2SpecFactory m_factory;
 
 			explicit TargetLV2SpecHook(const ParameterSetDumpable& params);
 
