@@ -66,6 +66,8 @@ transaction 'cp lv2spectohpp.php "$PREFIX/bin"' \
 	'rm "$PREFIX/bin/lv2spectohpp.php"'
 transaction 'cp lv2spectottl.php "$PREFIX/bin"' \
 	'rm "$PREFIX/bin/lv2spectottl.php"'
+transaction 'mkdir -p "$PREFIX/lib/maike"' \
+	'rmdir "$PREFIX/lib/maike"'
 transaction 'cp __targets/targetlv2spec.so "$PREFIX/lib/maike"' \
 	'rm "$PREFIX/lib/maike/targetlv2spec.so"'
 transaction 'cp __targets/liblv2plug_ui.a "$PREFIX/lib"' \
